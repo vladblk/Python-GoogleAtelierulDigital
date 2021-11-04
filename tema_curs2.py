@@ -26,3 +26,6 @@ for el in my_list:
     if el % 3 == 0:
         res.append(el)
 print(res)
+
+res1 = [el for el in my_list if el % 3 == 0]
+print(res1)
