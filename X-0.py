@@ -3,20 +3,34 @@ import random
 # board
 board = ['_' for i in range(10)]
 
+
 # display the board
-def display_board(board):
-    print(f'{board[1]} | {board[2]} | {board[3]}')
-    print(f'{board[4]} | {board[5]} | {board[6]}')
-    print(f'{board[7]} | {board[8]} | {board[9]}')
+def display_board(b) -> None:
+    print(f'{b[1]} | {b[2]} | {b[3]}')
+    print(f'{b[4]} | {b[5]} | {b[6]}')
+    print(f'{b[7]} | {b[8]} | {b[9]}')
+
+    return
 
 
 # check if someone wins
-def is_winner(board, p):
-    return (board[1] == p and board[2] == p and board[3] == p) or (board[4] == p and board[5] == p and board[6] == p) or (board[7] == p and board[8] == p and board[9] == p) or (board[1] == p and board[4] == p and board[7] == p) or (board[2] == p and board[5] == p and board[8] == p) or (board[3] == p and board[6] == p and board[9] == p) or (board[1] == p and board[5] == p and board[9] == p) or (board[7] == p and board[5] == p and board[3] == p)
+def is_winner(b, p):
+    line_1 = b[1] == p and b[2] == p and b[3] == p
+    line_2 = b[4] == p and b[5] == p and b[6] == p
+    line_3 = b[7] == p and b[8] == p and b[9] == p
+
+    col_1 = b[1] == p and b[4] == p and b[7] == p
+    col_2 = b[2] == p and b[5] == p and b[8] == p
+    col_3 = b[3] == p and b[6] == p and b[9] == p
+
+    diag_1 = b[1] == p and b[5] == p and b[9] == p
+    diag_2 = b[7] == p and b[5] == p and b[3] == p
+
+    return line_1 or line_2 or line_3 or col_1 or col_2 or col_3 or diag_1 or diag_2
 
 
-def is_board_full(board):
-    if board.count('_') > 1:
+def is_board_full(b):
+    if b.count('_') > 1:
         return False
     else:
         return True
@@ -29,7 +43,7 @@ def player_move():
         position = input('Select a position from 1-9: ')
         try:
             position = int(position)
-            if position > 0 and position < 10:
+            if 0 < position < 10:
                 if is_position_free(position):
                     is_valid = True
                     return position
@@ -40,7 +54,6 @@ def player_move():
 
         except ValueError:
             print('Please insert a number')
-
 
 
 def computer_move():
@@ -86,8 +99,9 @@ def computer_move():
     return position
 
 
-def insert_position(position, p):
+def insert_position(position, p) -> None:
     board[position] = p
+    return
 
 
 def is_position_free(pos):
@@ -118,9 +132,6 @@ def main():
         else:
             print('Player wins!')
             break
-
-    if is_board_full(board):
-        print('Tie')
 
 
 main()
