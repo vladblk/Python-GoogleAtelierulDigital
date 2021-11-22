@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 import time
 
 
-# fara aceasta functie, pandas da eroare ValueError Arrays Must be All Same Length
+# pandas ValueError Arrays Must be All Same Length function fix
 def pad_dict_list(dict_list, padel):
     lmax = 0
     for lname in dict_list.keys():
@@ -21,16 +21,19 @@ def pad_dict_list(dict_list, padel):
 browser = webdriver.Chrome(ChromeDriverManager().install())
 
 for day in range(1, 8):
-    browser.get(f'https://www.mai.gov.ro/informare-covid-19-grupul-de-comunicare-strategica-{day}-noiembrie-ora-13-00-2/')
+    url = f'https://www.mai.gov.ro/informare-covid-19-grupul-de-comunicare-strategica-{day}-noiembrie-ora-13-00-2/'
+    browser.get(url)
 
-    table = browser.find_elements(By.XPATH, '/html/body/div[3]/div/div[1]/main/article/div/div/table[1]/tbody/tr/td')
+    table_path = '/html/body/div[3]/div/div[1]/main/article/div/div/table[1]/tbody/tr/td'
+    table = browser.find_elements(By.XPATH, table_path)
     table_list = []
 
     for item in table:
         table_list.append(item.text)
     print(table_list)
 
-    header = browser.find_elements(By.XPATH, '/html/body/div[3]/div/div[1]/main/article/div/div/table[1]/tbody/tr[1]/td')
+    header_path = '/html/body/div[3]/div/div[1]/main/article/div/div/table[1]/tbody/tr[1]/td'
+    header = browser.find_elements(By.XPATH, header_path)
     header_list = []
 
     for item in header:
@@ -53,7 +56,6 @@ for day in range(1, 8):
         data_frame.to_excel('informare_covid.xlsx')
     else:
         with ExcelWriter('informare_covid.xlsx', mode='a', engine='openpyxl') as writer:
-            # sheet +1 pt a nu a da eroare la executie, excel creaza default Sheet1
             data_frame.to_excel(writer, sheet_name=f'Sheet{day}')
 
     time.sleep(5)
