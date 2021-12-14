@@ -18,9 +18,7 @@ class ListJobsView(LoginRequiredMixin, ListView):
     template_name = 'jobs/jobs_index.html'
 
     def get_queryset(self):
-        if self.request.user.is_superuser is True:
-            return self.model.objects.all()
-        return self.model.objects.filter(id=self.request.user.userextend.customer.id)
+        return self.model.objects.filter(active=1)
 
 
 class CreateJobsView(LoginRequiredMixin, CreateView):
@@ -46,9 +44,6 @@ class UpdateJobsView(LoginRequiredMixin, UpdateView):
     # fields = '__all__'
     form_class = JobsForm
     template_name = 'jobs/jobs_form.html'
-
-    def get_queryset(self):
-        return self.model.objects.filter(id=self.request.user.userextend.customer.id)
 
     def get_form_kwargs(self):
         variable_to_send = super(UpdateJobsView, self).get_form_kwargs()
